@@ -17,7 +17,7 @@ class AssetsListViewModel @Inject constructor(
 
     // TODO: add Loading
 
-    val _assets = MutableStateFlow<List<Asset>>(emptyList())
+    private val _assets = MutableStateFlow<List<Asset>>(emptyList())
     val assets: StateFlow<List<Asset>> = _assets
 
     // TODO: add error
@@ -30,9 +30,10 @@ class AssetsListViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 val result = apiService.getAssets()
-                _assets.value = result
+                _assets.value = result.data
             } catch(e: Exception) {
                 // TODO: Handle error
+                print(e.message)
             }
         }
     }

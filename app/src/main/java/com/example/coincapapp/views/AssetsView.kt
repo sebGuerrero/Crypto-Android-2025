@@ -29,20 +29,23 @@ import coil3.compose.AsyncImage
 import com.example.coincapapp.models.Asset
 import com.example.coincapapp.ui.theme.Typography
 import com.example.coincapapp.viewModels.AssetsListViewModel
+import androidx.compose.foundation.lazy.items
+import androidx.compose.runtime.getValue
 
 @Composable
 fun AssetsList(viewModel: AssetsListViewModel = hiltViewModel()) {
 
-    var assets = viewModel._assets.collectAsState()
+//    val assets = viewModel.assets.collectAsState()
+    val assets by viewModel.assets.collectAsState()
 
     LazyColumn(
         modifier = Modifier
             .fillMaxHeight()
             .background(MaterialTheme.colorScheme.onBackground)
     ) {
-//        items(assets) { asset ->
-//            AssetRow(asset)
-//        }
+        items(assets, key = { it.id } ) { asset ->
+            AssetRow(asset)
+        }
     }
 }
 
