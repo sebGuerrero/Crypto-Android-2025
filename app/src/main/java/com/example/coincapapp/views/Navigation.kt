@@ -28,10 +28,18 @@ fun MainScreen() {
 
 @Composable
 fun NavigationGraph(navController: NavHostController) {
+    val assetIdKey = "assetId"
     NavHost(navController, startDestination = BottomNavigationItem.Home.route) {
-        composable(BottomNavigationItem.Home.route) { AssetsList() }
+        composable(BottomNavigationItem.Home.route) { AssetsList(navController = navController) }
         composable(BottomNavigationItem.Favourites.route) { Favourites() }
         composable(BottomNavigationItem.Settings.route) { Settings() }
+
+        composable("${BottomNavigationItem.Home.route}/${assetIdKey}") { backStackEntry ->
+            AssetDetailView(
+                assetId = backStackEntry.arguments?.getString(assetIdKey) ?: "missing asset",
+                navController
+            )
+        }
     }
 }
 
