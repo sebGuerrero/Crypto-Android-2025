@@ -13,7 +13,7 @@ import javax.inject.Inject
 @HiltViewModel
 class AssetsListViewModel @Inject constructor(
     private val apiService: CoinCapApiService
-): ViewModel() {
+) : ViewModel() {
 
     // TODO: add Loading
 
@@ -29,9 +29,21 @@ class AssetsListViewModel @Inject constructor(
     private fun fetchAssets() {
         viewModelScope.launch {
             try {
-                val result = apiService.getAssets()
-                _assets.value = result.data
-            } catch(e: Exception) {
+                val result = apiService.getAssets().data
+                val mappedAssets = result.map { assetResponse ->
+                    val price = String.format("%.2f", assetResponse.priceUsd.toDouble())
+                    val percentage = String.format("%.2f", assetResponse.changePercent24Hr.toDouble()).toDouble()
+
+                    Asset(
+                        assetResponse.id,
+                        assetResponse.name,
+                        assetResponse.symbol,
+                        price,
+                        percentage
+                    )
+                }
+                _assets.value = mappedAssets
+            } catch (e: Exception) {
                 // TODO: Handle error
                 print(e.message)
             }

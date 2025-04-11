@@ -4,5 +4,5 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class AssetsResponse (
-    val data: List<Asset>
+    val data: List<AssetResponse>
 )

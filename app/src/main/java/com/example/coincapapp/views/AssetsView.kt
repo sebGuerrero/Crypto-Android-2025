@@ -38,6 +38,7 @@ fun AssetsList(viewModel: AssetsListViewModel = hiltViewModel()) {
 //    val assets = viewModel.assets.collectAsState()
     val assets by viewModel.assets.collectAsState()
 
+
     LazyColumn(
         modifier = Modifier
             .fillMaxHeight()
